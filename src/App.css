@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  
 }
 
 .App-logo {
@@ -27,6 +27,25 @@
 .App-link {
   color: #61dafb;
 }
+
+.bgs .carousel-item::before{
+  content:'';
+  position: absolute;
+  top:0;
+  right:0;
+  left:0;
+  bottom:0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6));
+}
+
+
+
+
+
+
 
 @keyframes App-logo-spin {
   from {
