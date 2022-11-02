@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import login from '../../assets/images/login/login.svg'
+import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 const Login = () => {
+  const {userLogIn} = useContext(AuthContext);
+
     const handleLogin = (e) => {
      e.preventDefault();
      const form = e.target;
@@ -9,6 +13,18 @@ const Login = () => {
      const password = form.password.value;
      form.reset();
      console.log(email,password);
+
+     userLogIn(email, password)
+     .then((result) => {
+      // Signed in 
+      const user = result.user;
+     console.log(user);
+    form.reset();
+      toast.success('Nou you are logged in')
+    })
+    .catch((error) => {
+     toast.error(error.message);
+    });
 
     }
     return (
@@ -31,7 +47,7 @@ const Login = () => {
           <label className="label">
             <span className="label-text">Password</span>
           </label>
-          <input type="text" name='password' placeholder="password" className="input input-bordered" required/>
+          <input type="password" name='password' placeholder="password" className="input input-bordered" required/>
           <label className="label">
             <Link to='' className="label-text-alt link link-hover">Forgot password?</Link>
           </label>
