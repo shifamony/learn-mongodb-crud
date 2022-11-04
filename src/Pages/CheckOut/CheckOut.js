@@ -29,7 +29,7 @@ const CheckOut = () => {
     // if(phone.length > 10){
     //     toast.success('Phone number shuld be 10 charecter or more')
     // }else{}
-    fetch('http://localhost:5000/orders',{
+    fetch('https://genius-car-server-chi.vercel.app/orders',{
         method: 'POST',
         headers:{
             'content-type':'application/json'

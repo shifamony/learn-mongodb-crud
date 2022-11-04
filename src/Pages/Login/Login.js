@@ -1,10 +1,15 @@
+
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import login from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
+import SocialLogin from '../shared/SocialLogin/SocialLogin';
 const Login = () => {
   const {userLogIn} = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || '/'
 
     const handleLogin = (e) => {
      e.preventDefault();
@@ -18,9 +23,32 @@ const Login = () => {
      .then((result) => {
       // Signed in 
       const user = result.user;
-     console.log(user);
-    form.reset();
-      toast.success('Nou you are logged in')
+      form.reset();
+      // console.log(user);
+
+     const currentUser = {
+       email:user.email
+     }
+     console.log(currentUser);
+
+      //GET JWT TOKEN
+      fetch('https://genius-car-server-chi.vercel.app/jwt', {
+        method:'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body:JSON.stringify(currentUser)
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        //set localstorage
+        localStorage.setItem('geniusItem', data.token);
+        navigate(from,{replace: true})
+      })
+
+      
+      toast.success('Now you are logged in')
     })
     .catch((error) => {
      toast.error(error.message);
@@ -57,6 +85,7 @@ const Login = () => {
         </div>
       </form>
       <p className='text-center'>New to Genius Car <Link className='text-orange-600 font-bold text-center' to='/signup'>Signup</Link></p>
+      <SocialLogin></SocialLogin>
     </div>
   </div>
 </div>

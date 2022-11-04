@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-const OrderRow = ({order, handleDelete}) => {
-    const {_id,serviceName,price,customer,phone,service} = order;
+const OrderRow = ({order, handleDelete,  handleStatusUpdate}) => {
+    const {_id,serviceName,price,customer,phone,service,status} = order;
     const [orderService, setOrderService] = useState({});
 
     useEffect(() => {
-        fetch(`http://localhost:5000/services/${service}`)
+        fetch(`https://genius-car-server-chi.vercel.app/services/${service}`)
         .then(res => res.json())
         .then(data => setOrderService(data))
     },[service]);
@@ -44,7 +44,7 @@ const OrderRow = ({order, handleDelete}) => {
         </td>
         <td>Purple</td>
         <th>
-          <button className="btn btn-ghost btn-xs">details</button>
+          <button onClick={() =>  handleStatusUpdate(_id)} className="btn btn-ghost btn-xs">{status ? status : 'Pending'}</button>
         </th>
       </tr>
      
